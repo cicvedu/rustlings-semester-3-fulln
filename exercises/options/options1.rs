@@ -3,17 +3,21 @@
 // Execute `rustlings hint options1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 // This function returns how much icecream there is left in the fridge.
 // If it's before 10PM, there's 5 pieces left. At 10PM, someone eats them
 // all, so there'll be no more left :(
 use std::option::Option;
+use std::option::Option::{Some, None};
 
 fn maybe_icecream(time_of_day: u16) -> Option<u16> {
-    Option::from((time_of_day <= 12) as u16 * 5)
-        .or_else(|| Option::from((time_of_day < 23) as u16 * 0))
-        .or_else(|| None)
+
+    match time_of_day {
+        0..=9 => Some(5),
+        10..=21 => Some(5),
+        22..=24 => Some(0),
+        _ => None,
+    }
 }
 
 #[cfg(test)]
