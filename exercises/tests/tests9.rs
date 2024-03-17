@@ -36,16 +36,24 @@ extern "Rust" {
 
 mod Foo {
     // No `extern` equals `extern "Rust"`.
-    fn my_demo_function(a: u32) -> u32 {
+    pub fn my_demo_function(a: u32) -> u32 {
         a
     }
+
+    pub fn my_demo_function_alias(a: u32) -> u32 {
+        a
+    }
+
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use Foo::my_demo_function;
+    use Foo::my_demo_function_alias;
 
     #[test]
+    #[no_mangle]
     fn test_success() {
         // The externally imported functions are UNSAFE by default
         // because of untrusted source of other languages. You may
@@ -53,9 +61,7 @@ mod tests {
         //
         // SAFETY: We know those functions are aliases of a safe
         // Rust function.
-        unsafe {
             my_demo_function(123);
             my_demo_function_alias(456);
-        }
     }
 }
